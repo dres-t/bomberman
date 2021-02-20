@@ -27,16 +27,14 @@ class field{
 
     }
 
-    getdrawco(i,j) {
-        let xco = i*vakbreedte;
-        let yco = j*vakbreedte;
-        return [xco, yco];
+    addExplosion(x, y, range = 1) {
+        console.log("not yet implemented")
     }
 
     draw() {
         for (let i=0; i<this.xvelden; i++) {
             for (let j=0; j<this.yvelden; j++) {
-                let co = this.getdrawco(i, j);
+                let co = getdrawco(i, j);
                 // teken walls
                 if (this.speelbord[[i,j]] == "wall") {
                     fill(color(0,255,0));
@@ -48,10 +46,19 @@ class field{
                     rect(co[0],co[1], vakbreedte, vakbreedte);
                 }
                 // teken bombs en tel ze af
-                else if (typeof(this.speelbord[[i, j]]) == "object") {
+                else if (typeof(this.speelbord[[i, j]]) == "object" && this.speelbord[[i, j]].type() == "bomb") {
                     this.speelbord[[i, j]].draw();
                     if (this.speelbord[[i, j]].countdown()) {
                         console.log("explode!");
+                        this.addExplosion(i, j, this.speelbord[[i, j]].range);
+                        delete this.speelbord[[i, j]];
+                    }
+                }
+                // teken de explosions en tel ze af
+                else if (typeof(this.speelbord[[i, j]]) == "object" && this.speelbord[[i, j]].type() == "explosion") {
+                    this.speelbord[[i, j]].draw();
+                    if (this.speelbord[[i, j]].countdown()) {
+                        console.log("end explosion");
                         delete this.speelbord[[i, j]];
                     }
                 }
@@ -81,11 +88,17 @@ function bevat(biglijst, smalllijst) {
     return false
 }
 
+function getdrawco(i,j) {
+    let xco = i*vakbreedte;
+    let yco = j*vakbreedte;
+    return [xco, yco];
+}
+
 class bomb {
     constructor(x, y, range = 1) {
         this.xco = x;
         this.yco = y;
-        this.timer = 300;
+        this.timer = 250;
         this.range = range;
     }
 
@@ -93,6 +106,34 @@ class bomb {
         fill(color(30,30,30));
         let r = vakbreedte/2;
         ellipse(this.xco*vakbreedte + r, this.yco*vakbreedte + r, r*1.5, r*1.5);
+    }
+
+    countdown() {
+        this.timer -= 1;
+        if (this.timer <= 0) {return true}
+        return false;
+    }
+
+    type() {
+        return "bomb";
+    }
+}
+
+class explosion {
+    constructor(x, y) {
+        this.xco = x;
+        this.yco = y;
+        this.timer = 125;
+    }
+
+    draw() {
+        fill(color(242, 105, 0));
+        let co = getdrawco(this.xco, this.yco)
+        rect(co[0] + vakbreedte/4, co[1] + vakbreedte/4, vakbreedte/2, vakbreedte/2);
+    }
+
+    type() {
+        return "explosion";
     }
 
     countdown() {
