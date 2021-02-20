@@ -18,7 +18,7 @@ class player {
         this.cell = this.getCell();
         if (direction == "up" || direction =="down") {
             // check of gewenste cell mag
-            if (direction == "up" && (this.yco%vakbreedte>vakbreedte-6 || this.yco <= 0)) {
+            if (direction == "up" && (this.yco%vakbreedte>vakbreedte-6 || this.yco <= 0 || this.yco%vakbreedte == 0)) {
                 if (!bord.checkCell(this.cell[0],this.cell[1]-1)) {return false} }
             if (direction == "down" && this.yco%vakbreedte<6) {
                 if (!bord.checkCell(this.cell[0],this.cell[1]+1)) {return false} }
@@ -36,7 +36,7 @@ class player {
         }
         else if (direction == "left" || direction == "right") {
             // check of gewenste cell mag
-            if (direction == "left" && (this.xco%vakbreedte>vakbreedte-6 || this.xco <= 0)) {
+            if (direction == "left" && (this.xco%vakbreedte>vakbreedte-6 || this.xco <= 0 || this.xco%vakbreedte == 0)) {
                 if (!bord.checkCell(this.cell[0]-1,this.cell[1])) {return false} }
             if (direction == "right" && this.xco%vakbreedte<6) {
                 if (!bord.checkCell(this.cell[0]+1,this.cell[1])) {return false} }

@@ -23,12 +23,14 @@ function setup() {
 }
 
 function draw() {
+    // teken het bord
     background(225);
     drawfield();
     bord.draw();
     player1.draw();
     player2.draw();
 
+    // voer acties uit
     checkkeys();
 }
 
@@ -105,7 +107,7 @@ function checkkeys() {
     }
 }
 
-function knop() {
-    console.log("button pressed");
-    alert("helaba");
+function reset_knop() {
+    console.log("resetted");
+    setup();
 }

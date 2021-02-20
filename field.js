@@ -47,6 +47,14 @@ class field{
                     fill(color(230, 230, 28));
                     rect(co[0],co[1], vakbreedte, vakbreedte);
                 }
+                // teken bombs en tel ze af
+                else if (typeof(this.speelbord[[i, j]]) == "object") {
+                    this.speelbord[[i, j]].draw();
+                    if (this.speelbord[[i, j]].countdown()) {
+                        console.log("explode!");
+                        delete this.speelbord[[i, j]];
+                    }
+                }
             }
         }
     }
@@ -71,4 +79,25 @@ function bevat(biglijst, smalllijst) {
         }
     }
     return false
+}
+
+class bomb {
+    constructor(x, y, range = 1) {
+        this.xco = x;
+        this.yco = y;
+        this.timer = 300;
+        this.range = range;
+    }
+
+    draw() {
+        fill(color(30,30,30));
+        let r = vakbreedte/2;
+        ellipse(this.xco*vakbreedte + r, this.yco*vakbreedte + r, r*1.5, r*1.5);
+    }
+
+    countdown() {
+        this.timer -= 1;
+        if (this.timer <= 0) {return true}
+        return false;
+    }
 }
