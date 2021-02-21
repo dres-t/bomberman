@@ -1,9 +1,10 @@
 class field{
-    constructor() {
+    constructor(players = []) {
         this.speelbord = {};
         this.xvelden = width/vakbreedte;
         this.yvelden = width/vakbreedte;
         this.nobeginbox = [];
+        this.players = players;
 
         this.nobeginbox = [[0,0],[0,1],[1,0],[this.xvelden-1, this.yvelden-1],[this.xvelden-2,this.yvelden-1],[this.xvelden-1, this.yvelden-2]];
         for (let i=0; i<3*(this.xvelden+this.yvelden); i++) {
@@ -123,7 +124,7 @@ class field{
                     fill(color(230, 230, 28));
                     rect(co[0],co[1], vakbreedte, vakbreedte);
                 }
-                // teken bombs en tel ze af
+                // teken bombs, tel ze af en beweeg ze
                 else if (typeof(this.speelbord[[i, j]]) == "object" && this.speelbord[[i, j]].type() == "bomb") {
                     this.speelbord[[i, j]].draw();
                     if (this.speelbord[[i, j]].countdown()) {
@@ -144,15 +145,30 @@ class field{
                 }
             }
         }
+        for (let i=0; i<this.players.length; i++) {this.players[i].draw()}
     }
 
-    checkCell(x, y) {
+    checkCell(x, y, movebomb = false, movedirection = "up") {
+        let cellelem = this.speelbord[[x, y]];
         // buiten veld
         if (x < 0 || x >= this.xvelden) {return false}
         if (y < 0 || y >= this.yvelden) {return false}
-
+        
         // muur of box
-        if (this.speelbord[[x, y]] == "wall" || this.speelbord[[x, y]] == "box") {return false}
+        if (cellelem == "wall" || cellelem == "box") {return false}
+
+        // bomb
+        if (typeof(cellelem) == "object" && cellelem.type() == "bomb") {
+            // if (cellelem.direction !)
+
+            return false;
+        }
+
+        // andere speler
+        for (let i=0; i<this.players.length; i++) {
+            let playercell = this.players[i].getCell();
+            if (playercell[0] == x && playercell[1] == y) {return false}
+        }
 
         // alles oke
         return true
@@ -176,8 +192,12 @@ function getdrawco(i,j) {
 
 class bomb {
     constructor(x, y, speler, range = 1) {
-        this.xco = x;
-        this.yco = y;
+        this.xcell = x;
+        this.ycell = y;
+        this.r = vakbreedte/2;
+        this.xdraw = x*vakbreedte + this.r;
+        this.ydraw = y*vakbreedte + this.r;
+        this.direction = "nope"; 
         this.timer = 250;
         this.range = range;
         this.speler = speler;
@@ -185,8 +205,7 @@ class bomb {
 
     draw() {
         fill(color(30,30,30));
-        let r = vakbreedte/2;
-        ellipse(this.xco*vakbreedte + r, this.yco*vakbreedte + r, r*1.5, r*1.5);
+        ellipse(this.xdraw, this.ydraw, this.r*1.5, this.r*1.5);
     }
 
     countdown() {
@@ -233,6 +252,7 @@ class power {
         this.xco = x;
         this.yco = y;
         let rand = int(random(0,3));
+
     }
 
     type() {

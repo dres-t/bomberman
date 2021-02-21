@@ -7,6 +7,7 @@ class player {
         this.cell = this.getCell();
         this.aantalbombs = 0;
         this.maxboms = 1;
+        this.movebomb = false;
     }
     
     draw() {
@@ -21,9 +22,9 @@ class player {
         if (direction == "up" || direction =="down") {
             // check of gewenste cell mag
             if (direction == "up" && (this.yco%vakbreedte>vakbreedte-6 || this.yco <= 0 || this.yco%vakbreedte == 0)) {
-                if (!bord.checkCell(this.cell[0],this.cell[1]-1)) {return false} }
+                if (!bord.checkCell(this.cell[0],this.cell[1]-1, this.movebomb, "up")) {return false} }
             if (direction == "down" && this.yco%vakbreedte<6) {
-                if (!bord.checkCell(this.cell[0],this.cell[1]+1)) {return false} }
+                if (!bord.checkCell(this.cell[0],this.cell[1]+1, this.movebomb, "down")) {return false} }
 
             // als de cell oke is
             if (this.xco%vakbreedte <= offset) {
@@ -39,9 +40,9 @@ class player {
         else if (direction == "left" || direction == "right") {
             // check of gewenste cell mag
             if (direction == "left" && (this.xco%vakbreedte>vakbreedte-6 || this.xco <= 0 || this.xco%vakbreedte == 0)) {
-                if (!bord.checkCell(this.cell[0]-1,this.cell[1])) {return false} }
+                if (!bord.checkCell(this.cell[0]-1,this.cell[1], this.movebomb, "left")) {return false} }
             if (direction == "right" && this.xco%vakbreedte<6) {
-                if (!bord.checkCell(this.cell[0]+1,this.cell[1])) {return false} }
+                if (!bord.checkCell(this.cell[0]+1,this.cell[1], this.movebomb, "right")) {return false} }
 
             // als de cell oke is
             if (this.yco%vakbreedte <= offset) {

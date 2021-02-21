@@ -18,7 +18,7 @@ function setup() {
     player2 = new player(color(0,0,255),width-vakbreedte,height-vakbreedte);
     players = [player1, player2];
 
-    bord = new field();
+    bord = new field(players);
     console.log(bord);
 }
 
@@ -27,8 +27,8 @@ function draw() {
     background(225);
     drawfield();
     bord.draw();
-    player1.draw();
-    player2.draw();
+    // player1.draw();
+    // player2.draw();
 
     // voer acties uit
     checkkeys();
