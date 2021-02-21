@@ -41,6 +41,68 @@ class field{
                 if (rand == 0) {
                     this.speelbord[cell] = new power(cell[0], cell[1]);
                 }
+                break;
+            }
+            if (typeof(cellelem) == "object" && cellelem.type() == "bomb") {
+                this.addExplosion(cell[0], cell[1], cellelem.range);
+                break
+            }
+            this.speelbord[cell] = new explosion(cell[0], cell[1]);
+        }
+        // links, zeer gelijkaardig
+        for (let i= 1; i<=range; i++) {
+            let cell = [x-i, y];
+            let cellelem = this.speelbord[cell];
+            if (cell[0] < 0 || cell[0] >= this.xvelden || cell[1] < 0 || cell[1] >= this.yvelden || cellelem == "wall") {break}
+            if (cellelem == "box") {
+                delete this.speelbord[cell];
+                let rand = int(random(0,5));
+                if (rand == 0) {
+                    this.speelbord[cell] = new power(cell[0], cell[1]);
+                }
+                break;
+            }
+            if (typeof(cellelem) == "object" && cellelem.type() == "bomb") {
+                this.addExplosion(cell[0], cell[1], cellelem.range);
+                break
+            }
+            this.speelbord[cell] = new explosion(cell[0], cell[1]);
+        }
+        // boven
+        for (let i= 1; i<=range; i++) {
+            let cell = [x, y-i];
+            let cellelem = this.speelbord[cell];
+            if (cell[0] < 0 || cell[0] >= this.xvelden || cell[1] < 0 || cell[1] >= this.yvelden || cellelem == "wall") {break}
+            if (cellelem == "box") {
+                delete this.speelbord[cell];
+                let rand = int(random(0,5));
+                if (rand == 0) {
+                    this.speelbord[cell] = new power(cell[0], cell[1]);
+                }
+                break;
+            }
+            if (typeof(cellelem) == "object" && cellelem.type() == "bomb") {
+                this.addExplosion(cell[0], cell[1], cellelem.range);
+                break
+            }
+            this.speelbord[cell] = new explosion(cell[0], cell[1]);
+        }
+        // onder
+        for (let i= 1; i<=range; i++) {
+            let cell = [x, y+i];
+            let cellelem = this.speelbord[cell];
+            if (cell[0] < 0 || cell[0] >= this.xvelden || cell[1] < 0 || cell[1] >= this.yvelden || cellelem == "wall") {break}
+            if (cellelem == "box") {
+                delete this.speelbord[cell];
+                let rand = int(random(0,5));
+                if (rand == 0) {
+                    this.speelbord[cell] = new power(cell[0], cell[1]);
+                }
+                break;
+            }
+            if (typeof(cellelem) == "object" && cellelem.type() == "bomb") {
+                this.addExplosion(cell[0], cell[1], cellelem.range);
+                break
             }
             this.speelbord[cell] = new explosion(cell[0], cell[1]);
         }
