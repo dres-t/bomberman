@@ -1,4 +1,4 @@
-console.log("begining test3.js");
+console.log("begining bomberman.js");
 
 let player1;
 let player2;
@@ -10,6 +10,11 @@ const keyassignments = {90:"up", 68:"right", 81:"left", 83:"down", 38: "up", 39:
 let lastbuttons1 = [];
 let lastbuttons2 = [];
 let bord;
+
+var imgextrabomb;
+var imgrange;
+var imgmovebomb;
+var imgspeed;
 
 function setup() {
     let myCanvas = createCanvas(vakbreedte*xrijen, vakbreedte*yrijen);
@@ -32,6 +37,13 @@ function draw() {
 
     // voer acties uit
     checkkeys();
+}
+
+function preload() {
+    imgextrabomb = loadImage('images/extrabomb.png');
+    imgrange = loadImage('images/range.png');
+    imgmovebomb = loadImage('images/movebomb.png');
+    imgspeed = loadImage('images/speed.png');
 }
 
 function drawfield() {

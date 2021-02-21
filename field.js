@@ -150,6 +150,10 @@ class field{
                         delete this.speelbord[[i, j]];
                     }
                 }
+                // teken de power ups
+                else if (typeof(this.speelbord[[i, j]]) == "object" && this.speelbord[[i, j]].type() == "power") {
+                    this.speelbord[[i, j]].draw();
+                }
             }
         }
         for (let i=0; i<this.players.length; i++) {this.players[i].draw()}
@@ -212,7 +216,7 @@ class bomb {
         this.xdraw = x*vakbreedte + this.r;
         this.ydraw = y*vakbreedte + this.r;
         this.direction = "nope"; 
-        this.timer = 250;
+        this.timer = 200;
         this.range = range;
         this.speler = speler;
         this.speed = 2;
@@ -318,10 +322,23 @@ class explosion {
 
 class power {
     constructor(x, y) {
-        this.xco = x;
-        this.yco = y;
-        let rand = int(random(0,3));  // 4 power ups: max bombs, range bombs, move bombs, speed
+        this.xcell = x;
+        this.ycell = y;
+        let rand = int(random(0,4));  // 4 power ups: max bombs, range bombs, move bombs, speed
+        if (rand == 0) {this.power = "extrabombs"}
+        if (rand == 1) {this.power = "range"}
+        if (rand == 2) {this.power = "movebombs"}
+        if (rand == 3) {this.power = "speed"}
+    }
 
+    draw() {
+        let xdraw = this.xcell*vakbreedte + vakbreedte/8;
+        let ydraw = this.ycell*vakbreedte + vakbreedte/8;
+
+        if (this.power == "extrabombs") {image(imgextrabomb, xdraw, ydraw)}
+        if (this.power == "range") {image(imgrange, xdraw, ydraw)}
+        if (this.power == "movebombs") {image(imgmovebomb, xdraw, ydraw)}
+        if (this.power == "speed") {image(imgspeed, xdraw, ydraw)}
     }
 
     type() {
