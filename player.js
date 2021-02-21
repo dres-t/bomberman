@@ -5,6 +5,8 @@ class player {
         this.yco = beginy;
         this.speed = 2.5;
         this.cell = this.getCell();
+        this.aantalbombs = 0;
+        this.maxboms = 1;
     }
     
     draw() {

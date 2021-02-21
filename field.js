@@ -28,7 +28,23 @@ class field{
     }
 
     addExplosion(x, y, range = 1) {
-        console.log("not yet implemented")
+        console.log("add explosion");
+        this.speelbord[[x, y]] = new explosion(x, y);
+        // rechts
+        for (let i= 1; i<=range; i++) {
+            let cell = [x+i, y];
+            let cellelem = this.speelbord[cell];
+            if (cell[0] < 0 || cell[0] >= this.xvelden || cell[1] < 0 || cell[1] >= this.yvelden || cellelem == "wall") {break}
+            if (cellelem == "box") {
+                delete this.speelbord[cell];
+                let rand = int(random(0,5));
+                if (rand == 0) {
+                    this.speelbord[cell] = new power(cell[0], cell[1]);
+                }
+            }
+            this.speelbord[cell] = new explosion(cell[0], cell[1]);
+        }
+        console.log(this);
     }
 
     draw() {
@@ -50,8 +66,10 @@ class field{
                     this.speelbord[[i, j]].draw();
                     if (this.speelbord[[i, j]].countdown()) {
                         console.log("explode!");
-                        this.addExplosion(i, j, this.speelbord[[i, j]].range);
+                        this.speelbord[[i, j]].getSpeler().aantalbombs -= 1;
+                        let range = this.speelbord[[i, j]].range
                         delete this.speelbord[[i, j]];
+                        this.addExplosion(i, j, range);
                     }
                 }
                 // teken de explosions en tel ze af
@@ -95,11 +113,12 @@ function getdrawco(i,j) {
 }
 
 class bomb {
-    constructor(x, y, range = 1) {
+    constructor(x, y, speler, range = 1) {
         this.xco = x;
         this.yco = y;
         this.timer = 250;
         this.range = range;
+        this.speler = speler;
     }
 
     draw() {
@@ -116,6 +135,10 @@ class bomb {
 
     type() {
         return "bomb";
+    }
+
+    getSpeler() {
+        return this.speler;
     }
 }
 
@@ -140,5 +163,17 @@ class explosion {
         this.timer -= 1;
         if (this.timer <= 0) {return true}
         return false;
+    }
+}
+
+class power {
+    constructor(x, y) {
+        this.xco = x;
+        this.yco = y;
+        let rand = int(random(0,3));
+    }
+
+    type() {
+        return "power";
     }
 }
