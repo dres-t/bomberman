@@ -127,7 +127,14 @@ class field{
                 // teken bombs, tel ze af en beweeg ze
                 else if (typeof(this.speelbord[[i, j]]) == "object" && this.speelbord[[i, j]].type() == "bomb") {
                     this.speelbord[[i, j]].draw();
-                    if (this.speelbord[[i, j]].countdown()) {
+                    // move
+                    let moveret = this.speelbord[[i, j]].move();
+                    if (moveret[0]) {
+                        this.speelbord[[moveret[1], moveret[2]]] = this.speelbord[[i, j]];
+                        delete this.speelbord[[i, j]];
+                    }
+                    // explode
+                    else if (this.speelbord[[i, j]].countdown()) {
                         console.log("explode!");
                         this.speelbord[[i, j]].getSpeler().aantalbombs -= 1;
                         let range = this.speelbord[[i, j]].range
@@ -159,8 +166,7 @@ class field{
 
         // bomb
         if (typeof(cellelem) == "object" && cellelem.type() == "bomb") {
-            // if (cellelem.direction !)
-
+            if (movebomb) {console.log("move bomb"); cellelem.setDirection(movedirection)}
             return false;
         }
 
@@ -201,6 +207,7 @@ class bomb {
         this.timer = 250;
         this.range = range;
         this.speler = speler;
+        this.speed = 2.5;
     }
 
     draw() {
@@ -220,6 +227,60 @@ class bomb {
 
     getSpeler() {
         return this.speler;
+    }
+
+    setDirection(direction) {
+        this.direction = direction;
+    }
+
+    drawtocell() {
+        return [int(this.xdraw/vakbreedte), int(this.ydraw/vakbreedte)];
+    }
+
+    celltodraw() {
+        this.xdraw = this.xcell*vakbreedte + this.r;
+        this.ydraw = this.ycell*vakbreedte + this.r;
+    }
+
+    move() {
+        if (this.direction != "nope") {
+            console.log("bewegende bomb");
+            // omhoog
+            if (this.direction == "up") {
+                this.ydraw -= this.speed;
+                if ((this.ydraw%vakbreedte<=vakbreedte/2 || this.ydraw <= 0 ) && (!bord.checkCell(this.xcell, this.ycell-1))) {
+                    this.celltodraw(); this.direction = "nope";
+                }
+            }
+            // omlaag
+            else if (this.direction == "down") {
+                this.ydraw += this.speed;
+                if ((this.ydraw%vakbreedte>=vakbreedte/2 || this.ydraw%vakbreedte == 0) && (!bord.checkCell(this.xcell, this.ycell+1))) {
+                    this.celltodraw(); this.direction = "nope";
+                }
+            }
+            // links
+            else if (this.direction == "left") {
+                this.xdraw -= this.speed;
+                if ((this.xdraw%vakbreedte<=vakbreedte/2 || this.xdraw <= 0 ) && (!bord.checkCell(this.xcell - 1, this.ycell))) {
+                    this.celltodraw(); this.direction = "nope";
+                }
+            }
+            // rechts
+            else if (this.direction == "right") {
+                this.xdraw += this.speed;
+                if ((this.xdraw%vakbreedte>=vakbreedte/2 || this.xdraw%vakbreedte == 0) && (!bord.checkCell(this.xcell+1, this.ycell))) {
+                    this.celltodraw(); this.direction = "nope";
+                }
+            }
+        }
+        // kijken of er van cell veranderd is
+        let newcell = this.drawtocell();
+        if (!(newcell[0] == this.xcell && newcell[1] == this.ycell)) {
+            this.xcell = newcell[0]; this.ycell = newcell[1];
+            return [true, newcell[0], newcell[1]];
+        }
+        return [false, this.xcell, this.ycell];
     }
 }
 
