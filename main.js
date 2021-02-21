@@ -37,6 +37,7 @@ function draw() {
 
     // voer acties uit
     checkkeys();
+    checkforpowerups();
 }
 
 function preload() {
@@ -119,6 +120,12 @@ function checkkeys() {
             teller2-=1;
         }
         teller2+=1;
+    }
+}
+
+function checkforpowerups() {
+    for (let i=0; i<players.length; i++) {
+        players[i].checkpowerup();
     }
 }
 

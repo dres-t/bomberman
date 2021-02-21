@@ -7,7 +7,7 @@ class player {
         this.cell = this.getCell();
         this.aantalbombs = 0;
         this.maxbombs = 1;
-        this.movebomb = true;
+        this.movebomb = false;
         this.rangebomb = 1;
     }
     
@@ -83,5 +83,17 @@ class player {
         let xcell = int((this.xco+vakbreedte/2) / vakbreedte);
         let ycell = int((this.yco+vakbreedte/2) / vakbreedte);
         return [xcell, ycell];
+    }
+
+    checkpowerup() {
+        let cell = this.getCell();
+        const cellelem = bord.speelbord[cell];
+        if (typeof(cellelem) == "object" && cellelem.type() == "power") {
+            if (cellelem.power == "extrabombs") {this.maxbombs += 1}
+            if (cellelem.power == "range") {this.rangebomb += 1}
+            if (cellelem.power == "movebombs") {this.movebomb = true}
+            if (cellelem.power == "speed" && this.speed < 5) {this.speed += 0.5}
+            delete bord.speelbord[cell];
+        }
     }
 }

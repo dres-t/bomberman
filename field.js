@@ -31,6 +31,7 @@ class field{
     addExplosion(x, y, range = 1) {
         console.log("add explosion");
         this.speelbord[[x, y]] = new explosion(x, y);
+        let drop = 3;
         // rechts
         for (let i= 1; i<=range; i++) {
             let cell = [x+i, y];
@@ -38,7 +39,7 @@ class field{
             if (cell[0] < 0 || cell[0] >= this.xvelden || cell[1] < 0 || cell[1] >= this.yvelden || cellelem == "wall") {break}
             if (cellelem == "box") {
                 delete this.speelbord[cell];
-                let rand = int(random(0,5));
+                let rand = int(random(0,drop));
                 if (rand == 0) {
                     this.speelbord[cell] = new power(cell[0], cell[1]);
                 }
@@ -46,6 +47,7 @@ class field{
             }
             if (typeof(cellelem) == "object" && cellelem.type() == "bomb") {
                 this.addExplosion(cell[0], cell[1], cellelem.range);
+                cellelem.getSpeler().aantalbombs -= 1;
                 break
             }
             this.speelbord[cell] = new explosion(cell[0], cell[1]);
@@ -57,7 +59,7 @@ class field{
             if (cell[0] < 0 || cell[0] >= this.xvelden || cell[1] < 0 || cell[1] >= this.yvelden || cellelem == "wall") {break}
             if (cellelem == "box") {
                 delete this.speelbord[cell];
-                let rand = int(random(0,5));
+                let rand = int(random(0,drop));
                 if (rand == 0) {
                     this.speelbord[cell] = new power(cell[0], cell[1]);
                 }
@@ -65,6 +67,7 @@ class field{
             }
             if (typeof(cellelem) == "object" && cellelem.type() == "bomb") {
                 this.addExplosion(cell[0], cell[1], cellelem.range);
+                cellelem.getSpeler().aantalbombs -= 1;
                 break
             }
             this.speelbord[cell] = new explosion(cell[0], cell[1]);
@@ -76,7 +79,7 @@ class field{
             if (cell[0] < 0 || cell[0] >= this.xvelden || cell[1] < 0 || cell[1] >= this.yvelden || cellelem == "wall") {break}
             if (cellelem == "box") {
                 delete this.speelbord[cell];
-                let rand = int(random(0,5));
+                let rand = int(random(0,drop));
                 if (rand == 0) {
                     this.speelbord[cell] = new power(cell[0], cell[1]);
                 }
@@ -84,6 +87,7 @@ class field{
             }
             if (typeof(cellelem) == "object" && cellelem.type() == "bomb") {
                 this.addExplosion(cell[0], cell[1], cellelem.range);
+                cellelem.getSpeler().aantalbombs -= 1;
                 break
             }
             this.speelbord[cell] = new explosion(cell[0], cell[1]);
@@ -95,7 +99,7 @@ class field{
             if (cell[0] < 0 || cell[0] >= this.xvelden || cell[1] < 0 || cell[1] >= this.yvelden || cellelem == "wall") {break}
             if (cellelem == "box") {
                 delete this.speelbord[cell];
-                let rand = int(random(0,5));
+                let rand = int(random(0,drop));
                 if (rand == 0) {
                     this.speelbord[cell] = new power(cell[0], cell[1]);
                 }
@@ -103,6 +107,7 @@ class field{
             }
             if (typeof(cellelem) == "object" && cellelem.type() == "bomb") {
                 this.addExplosion(cell[0], cell[1], cellelem.range);
+                cellelem.getSpeler().aantalbombs -= 1;
                 break
             }
             this.speelbord[cell] = new explosion(cell[0], cell[1]);
@@ -156,6 +161,7 @@ class field{
                 }
             }
         }
+        // teken de spelers
         for (let i=0; i<this.players.length; i++) {this.players[i].draw()}
     }
 
@@ -188,7 +194,7 @@ class field{
         if (speler.aantalbombs < speler.maxbombs) {
             speler.aantalbombs += 1;
             let cell = speler.getCell();
-            this.speelbord[cell] = new bomb(cell[0], cell[1], speler, speler.range);
+            this.speelbord[cell] = new bomb(cell[0], cell[1], speler, speler.rangebomb);
         }
     }
 }
