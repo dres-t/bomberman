@@ -92,7 +92,7 @@ function keyPressed() {
         lastbuttons2.push(40);
     }
     if (key == " ") {bord.addBomb(player1)}
-    if (key == "Control") {bord.addBomb(player2)}
+    if (key == "Shift") {bord.addBomb(player2)}
 }
 
 function checkkeys() {
