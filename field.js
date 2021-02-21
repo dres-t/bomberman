@@ -166,7 +166,7 @@ class field{
 
         // bomb
         if (typeof(cellelem) == "object" && cellelem.type() == "bomb") {
-            if (movebomb) {console.log("move bomb"); cellelem.setDirection(movedirection)}
+            if (movebomb) {cellelem.setDirection(movedirection)}
             return false;
         }
 
@@ -178,6 +178,14 @@ class field{
 
         // alles oke
         return true
+    }
+
+    addBomb(speler) {
+        if (speler.aantalbombs < speler.maxbombs) {
+            speler.aantalbombs += 1;
+            let cell = speler.getCell();
+            this.speelbord[cell] = new bomb(cell[0], cell[1], speler, speler.range);
+        }
     }
 }
 
@@ -207,7 +215,7 @@ class bomb {
         this.timer = 250;
         this.range = range;
         this.speler = speler;
-        this.speed = 2.5;
+        this.speed = 2;
     }
 
     draw() {
@@ -244,7 +252,7 @@ class bomb {
 
     move() {
         if (this.direction != "nope") {
-            console.log("bewegende bomb");
+            // console.log("bewegende bomb");
             // omhoog
             if (this.direction == "up") {
                 this.ydraw -= this.speed;
@@ -288,7 +296,7 @@ class explosion {
     constructor(x, y) {
         this.xco = x;
         this.yco = y;
-        this.timer = 125;
+        this.timer = 100;
     }
 
     draw() {
@@ -312,7 +320,7 @@ class power {
     constructor(x, y) {
         this.xco = x;
         this.yco = y;
-        let rand = int(random(0,3));
+        let rand = int(random(0,3));  // 4 power ups: max bombs, range bombs, move bombs, speed
 
     }
 

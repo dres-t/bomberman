@@ -45,7 +45,7 @@ function drawfield() {
 }
 
 function keyPressed() {
-    //console.log(key);
+    // console.log(key);
     if (key == "z") {
         lastbuttons1.push(90);
     }
@@ -70,10 +70,12 @@ function keyPressed() {
     if (key == "ArrowDown") {
         lastbuttons2.push(40);
     }
+    if (key == " ") {bord.addBomb(player1)}
+    if (key == "Control") {bord.addBomb(player2)}
 }
 
 function checkkeys() {
-    // console.log(lastbuttons1);
+    // keys voor speler 1
     let teller = 1;
     while (teller <= lastbuttons1.length) {
         let lastbutton1 = lastbuttons1[lastbuttons1.length-teller];
@@ -90,6 +92,7 @@ function checkkeys() {
         teller += 1;
     }
     
+    // keys voor speler 2
     let teller2 = 1;
     while (lastbuttons2.length>=teller2) {
         let lastbutton2 = lastbuttons2[lastbuttons2.length-teller2];

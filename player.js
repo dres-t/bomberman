@@ -6,8 +6,9 @@ class player {
         this.speed = 2.5;
         this.cell = this.getCell();
         this.aantalbombs = 0;
-        this.maxboms = 1;
+        this.maxbombs = 1;
         this.movebomb = true;
+        this.rangebomb = 1;
     }
     
     draw() {
