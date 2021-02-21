@@ -10,6 +10,7 @@ const keyassignments = {90:"up", 68:"right", 81:"left", 83:"down", 38: "up", 39:
 let lastbuttons1 = [];
 let lastbuttons2 = [];
 let bord;
+let end_game = false;
 
 var imgextrabomb;
 var imgrange;
@@ -30,14 +31,21 @@ function setup() {
 function draw() {
     // teken het bord
     background(225);
-    drawfield();
-    bord.draw();
-    // player1.draw();
-    // player2.draw();
+    if (!end_game) {
+        drawfield();
+        bord.draw();
+        // player1.draw();
+        // player2.draw();
 
-    // voer acties uit
-    checkkeys();
-    checkforpowerups();
+        // voer acties uit
+        checkkeys();
+        checkforpowerups();
+        checkfordeath();
+    }
+    else {
+        textSize(32);
+        text("einde", width/2, height/2);
+    }
 }
 
 function preload() {
@@ -129,7 +137,17 @@ function checkforpowerups() {
     }
 }
 
+function checkfordeath() {
+    for (let i=0; i<players.length; i++) {
+        if (players[i].checkdeath()) {
+            console.log("speler "+(i+1)+" died");
+            end_game = true;
+        }
+    }
+}
+
 function reset_knop() {
     console.log("resetted");
     setup();
+    end_game = false;
 }

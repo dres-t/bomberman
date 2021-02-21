@@ -87,7 +87,7 @@ class player {
 
     checkpowerup() {
         let cell = this.getCell();
-        const cellelem = bord.speelbord[cell];
+        let cellelem = bord.speelbord[cell];
         if (typeof(cellelem) == "object" && cellelem.type() == "power") {
             if (cellelem.power == "extrabombs") {this.maxbombs += 1}
             if (cellelem.power == "range") {this.rangebomb += 1}
@@ -95,5 +95,14 @@ class player {
             if (cellelem.power == "speed" && this.speed < 5) {this.speed += 0.5}
             delete bord.speelbord[cell];
         }
+    }
+
+    checkdeath() {
+        let cell = this.getCell();
+        let cellelem = bord.speelbord[cell];
+        if (typeof(cellelem) == "object" && cellelem.type() == "explosion") {
+            return true;
+        }
+        return false;
     }
 }
