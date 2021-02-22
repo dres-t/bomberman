@@ -306,7 +306,7 @@ class explosion {
     constructor(x, y) {
         this.xco = x;
         this.yco = y;
-        this.timer = 100;
+        this.timer = 90;
     }
 
     draw() {

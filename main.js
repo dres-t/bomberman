@@ -20,9 +20,12 @@ var imgspeed;
 function setup() {
     let myCanvas = createCanvas(vakbreedte*xrijen, vakbreedte*yrijen);
     myCanvas.parent("myContainer");
+    var myp5 = new p5(uitleg);
+    setupGame();
+    
+    /*
     let naam1 = document.getElementById("naam1").value;
     let naam2 = document.getElementById("naam2").value;
-    console.log(naam1);
     if (naam1 == "") {naam1 = "1"};
     if (naam2 == "") {naam2 = "2"};
     player1 = new player(color(255,0,0), 0, 0, naam1);
@@ -31,6 +34,7 @@ function setup() {
 
     bord = new field(players);
     console.log(bord);
+    */
 }
 
 function draw() {
@@ -58,6 +62,19 @@ function preload() {
     imgrange = loadImage('images/range.png');
     imgmovebomb = loadImage('images/movebomb.png');
     imgspeed = loadImage('images/speed.png');
+}
+
+function setupGame() {
+    let naam1 = document.getElementById("naam1").value;
+    let naam2 = document.getElementById("naam2").value;
+    if (naam1 == "") {naam1 = "1"};
+    if (naam2 == "") {naam2 = "2"};
+    player1 = new player(color(255,0,0), 0, 0, naam1);
+    player2 = new player(color(0,0,255),width-vakbreedte,height-vakbreedte, naam2);
+    players = [player1, player2];
+
+    bord = new field(players);
+    console.log(bord);
 }
 
 function drawfield() {
@@ -156,6 +173,6 @@ function checkfordeath() {
 
 function reset_knop() {
     console.log("resetted");
-    setup();
+    setupGame();
     end_game = [false];
 }

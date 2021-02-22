@@ -3,7 +3,7 @@ class player {
         this.color = color;
         this.xco = beginx;
         this.yco = beginy;
-        this.speed = 2.5;
+        this.speed = 2.2;
         this.cell = this.getCell();
         this.aantalbombs = 0;
         this.maxbombs = 1;
@@ -94,7 +94,7 @@ class player {
             if (cellelem.power == "extrabombs") {this.maxbombs += 1}
             if (cellelem.power == "range") {this.rangebomb += 1}
             if (cellelem.power == "movebombs") {this.movebomb = true}
-            if (cellelem.power == "speed" && this.speed < 5) {this.speed += 0.5}
+            if (cellelem.power == "speed" && this.speed < 4) {this.speed += 0.4}
             delete bord.speelbord[cell];
         }
     }
