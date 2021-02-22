@@ -22,7 +22,6 @@ function setup() {
     myCanvas.parent("myContainer");
     let naam1 = document.getElementById("naam1").value;
     let naam2 = document.getElementById("naam2").value;
-    console.log("hoi");
     console.log(naam1);
     if (naam1 == "") {naam1 = "1"};
     if (naam2 == "") {naam2 = "2"};
