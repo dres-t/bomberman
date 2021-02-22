@@ -1,3 +1,9 @@
+/*
+    NAME: Bomberman
+    AUTHOR: dres-t
+    DESCRIPTION: a static version of the game bomberman
+*/
+
 console.log("begining bomberman.js");
 
 let player1;
