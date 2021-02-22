@@ -20,8 +20,14 @@ var imgspeed;
 function setup() {
     let myCanvas = createCanvas(vakbreedte*xrijen, vakbreedte*yrijen);
     myCanvas.parent("myContainer");
-    player1 = new player(color(255,0,0));
-    player2 = new player(color(0,0,255),width-vakbreedte,height-vakbreedte, "2");
+    let naam1 = document.getElementById("naam1").value;
+    let naam2 = document.getElementById("naam2").value;
+    console.log("hoi");
+    console.log(naam1);
+    if (naam1 == "") {naam1 = "1"};
+    if (naam2 == "") {naam2 = "2"};
+    player1 = new player(color(255,0,0), 0, 0, naam1);
+    player2 = new player(color(0,0,255),width-vakbreedte,height-vakbreedte, naam2);
     players = [player1, player2];
 
     bord = new field(players);
