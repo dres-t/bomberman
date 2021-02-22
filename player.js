@@ -1,5 +1,5 @@
 class player {
-    constructor(color,beginx = 0, beginy = 0) {
+    constructor(color,beginx = 0, beginy = 0, naam = "1") {
         this.color = color;
         this.xco = beginx;
         this.yco = beginy;
@@ -9,6 +9,8 @@ class player {
         this.maxbombs = 1;
         this.movebomb = false;
         this.rangebomb = 1;
+        this.isdead = false;
+        this.name = naam;
     }
     
     draw() {
@@ -101,6 +103,7 @@ class player {
         let cell = this.getCell();
         let cellelem = bord.speelbord[cell];
         if (typeof(cellelem) == "object" && cellelem.type() == "explosion") {
+            this.isdead = true;
             return true;
         }
         return false;

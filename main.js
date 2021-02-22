@@ -10,7 +10,7 @@ const keyassignments = {90:"up", 68:"right", 81:"left", 83:"down", 38: "up", 39:
 let lastbuttons1 = [];
 let lastbuttons2 = [];
 let bord;
-let end_game = false;
+let end_game = [false];
 
 var imgextrabomb;
 var imgrange;
@@ -21,7 +21,7 @@ function setup() {
     let myCanvas = createCanvas(vakbreedte*xrijen, vakbreedte*yrijen);
     myCanvas.parent("myContainer");
     player1 = new player(color(255,0,0));
-    player2 = new player(color(0,0,255),width-vakbreedte,height-vakbreedte);
+    player2 = new player(color(0,0,255),width-vakbreedte,height-vakbreedte, "2");
     players = [player1, player2];
 
     bord = new field(players);
@@ -31,7 +31,7 @@ function setup() {
 function draw() {
     // teken het bord
     background(225);
-    if (!end_game) {
+    if (!end_game[0]) {
         drawfield();
         bord.draw();
         // player1.draw();
@@ -44,7 +44,7 @@ function draw() {
     }
     else {
         textSize(32);
-        text("einde", width/2, height/2);
+        text("einde, speler "+end_game[1]+" wint", 50, height/2);
     }
 }
 
@@ -140,14 +140,17 @@ function checkforpowerups() {
 function checkfordeath() {
     for (let i=0; i<players.length; i++) {
         if (players[i].checkdeath()) {
-            console.log("speler "+(i+1)+" died");
-            end_game = true;
+            console.log("speler "+players[i].name+" died");
+            players.splice(i,1);
+            // end_game = true;
         }
     }
+    if (players.length == 1) {end_game = [true, players[0].name]}
+    else if (players.length == 0) {end_game = [true, "niemand"]}
 }
 
 function reset_knop() {
     console.log("resetted");
     setup();
-    end_game = false;
+    end_game = [false];
 }
