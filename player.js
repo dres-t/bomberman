@@ -13,10 +13,16 @@ class player {
         this.name = naam;
     }
     
-    draw() {
-        fill(this.color);
+    draw(textures) {
         let r = vakbreedte/2;
-        ellipse(this.xco + r,this.yco + r,r,r);
+        fill(this.color);
+        if (!textures) {
+            ellipse(this.xco + r,this.yco + r,r,r);
+        }
+        else {
+            image(imghat, this.xco + vakbreedte/4, this.yco + vakbreedte/4 - 1, r, r);
+            ellipse(this.xco+r, this.yco+r, r/4, r/4);
+        }
     }
 
     canmove(direction) {

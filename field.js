@@ -116,22 +116,30 @@ class field{
     }
 
     draw() {
+        let textures = document.getElementById("textures").checked;
         for (let i=0; i<this.xvelden; i++) {
             for (let j=0; j<this.yvelden; j++) {
                 let co = getdrawco(i, j);
+                // console.log(textures);
                 // teken walls
                 if (this.speelbord[[i,j]] == "wall") {
-                    fill(color(0,255,0));
-                    rect(co[0], co[1], vakbreedte, vakbreedte);
+                    if (!textures) {
+                        fill(color(0,255,0));
+                        rect(co[0], co[1], vakbreedte, vakbreedte);
+                    }
+                    else {image(imgwall, co[0], co[1], vakbreedte, vakbreedte);}                    
                 }
                 // teken boxes
                 else if (this.speelbord[[i, j]] == "box") {
-                    fill(color(230, 230, 28));
-                    rect(co[0],co[1], vakbreedte, vakbreedte);
+                    if (!textures) {
+                        fill(color(230, 230, 28));
+                        rect(co[0],co[1], vakbreedte, vakbreedte);
+                    }
+                    else {image(imgbox, co[0] + 5, co[1] + 5, vakbreedte - 10, vakbreedte - 10);}
                 }
                 // teken bombs, tel ze af en beweeg ze
                 else if (typeof(this.speelbord[[i, j]]) == "object" && this.speelbord[[i, j]].type() == "bomb") {
-                    this.speelbord[[i, j]].draw();
+                    this.speelbord[[i, j]].draw(textures);
                     // move
                     let moveret = this.speelbord[[i, j]].move();
                     if (moveret[0]) {
@@ -149,7 +157,7 @@ class field{
                 }
                 // teken de explosions en tel ze af
                 else if (typeof(this.speelbord[[i, j]]) == "object" && this.speelbord[[i, j]].type() == "explosion") {
-                    this.speelbord[[i, j]].draw();
+                    this.speelbord[[i, j]].draw(textures);
                     if (this.speelbord[[i, j]].countdown()) {
                         console.log("end explosion");
                         delete this.speelbord[[i, j]];
@@ -162,7 +170,7 @@ class field{
             }
         }
         // teken de spelers
-        for (let i=0; i<this.players.length; i++) {this.players[i].draw()}
+        for (let i=0; i<this.players.length; i++) {this.players[i].draw(textures)}
     }
 
     checkCell(x, y, movebomb = false, movedirection = "up") {
@@ -228,9 +236,12 @@ class bomb {
         this.speed = 2;
     }
 
-    draw() {
-        fill(color(30,30,30));
-        ellipse(this.xdraw, this.ydraw, this.r*1.5, this.r*1.5);
+    draw(textures) {
+        if (!textures) {
+            fill(color(30,30,30));
+            ellipse(this.xdraw, this.ydraw, this.r*1.5, this.r*1.5);
+        }
+        else {image(imgbomb, this.xdraw - vakbreedte*(3/8), this.ydraw - vakbreedte*(3/8), vakbreedte*(3/4), vakbreedte*(3/4));}
     }
 
     countdown() {
@@ -309,10 +320,13 @@ class explosion {
         this.timer = 90;
     }
 
-    draw() {
-        fill(color(242, 105, 0));
+    draw(textures) {
         let co = getdrawco(this.xco, this.yco)
-        rect(co[0] + vakbreedte/4, co[1] + vakbreedte/4, vakbreedte/2, vakbreedte/2);
+        if (!textures) {
+            fill(color(242, 105, 0));
+            rect(co[0] + vakbreedte/4, co[1] + vakbreedte/4, vakbreedte/2, vakbreedte/2);
+        }
+        else {image(imgexplosion, co[0], co[1], vakbreedte, vakbreedte);}
     }
 
     type() {

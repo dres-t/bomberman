@@ -4,7 +4,7 @@
     DESCRIPTION: a static version of the game bomberman
 */
 
-console.log("begining bomberman.js");
+console.log("begining bomberman");
 
 let player1;
 let player2;
@@ -22,6 +22,11 @@ var imgextrabomb;
 var imgrange;
 var imgmovebomb;
 var imgspeed;
+var imgbox;
+var imgwall;
+var imgbomb;
+var imgexplosion;
+var imghat;
 
 function setup() {
     let myCanvas = createCanvas(vakbreedte*xrijen, vakbreedte*yrijen);
@@ -68,6 +73,11 @@ function preload() {
     imgrange = loadImage('images/range.png');
     imgmovebomb = loadImage('images/movebomb.png');
     imgspeed = loadImage('images/speed.png');
+    imgbox = loadImage('images/box.png');
+    imgwall = loadImage('images/muur.png');
+    imgbomb = loadImage('images/bomb.png');
+    imgexplosion = loadImage('images/explosion.png');
+    imghat = loadImage('images/hat.png');
 }
 
 function setupGame() {
